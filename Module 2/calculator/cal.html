@@ -1,0 +1,333 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Modern Calculator</title>
+
+    <!-- Bootstrap 5 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            font-family: Arial, sans-serif;
+        }
+
+        .calculator {
+            width: 360px;
+            max-width: 95%;
+            padding: 20px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .calculator-title {
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .display {
+            height: 100px;
+            background: #171717;
+            border-radius: 18px;
+            padding: 15px;
+            margin-bottom: 15px;
+            color: white;
+            text-align: right;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #history {
+            color: #aaa;
+            font-size: 14px;
+            min-height: 20px;
+        }
+
+        #display {
+            font-size: 36px;
+            font-weight: bold;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .buttons button {
+            height: 60px;
+            border: none;
+            border-radius: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            transition: 0.15s;
+        }
+
+        .buttons button:hover {
+            transform: translateY(-2px);
+        }
+
+        .buttons button:active {
+            transform: scale(0.95);
+        }
+
+        .number {
+            background: white;
+            color: #222;
+        }
+
+        .operator {
+            background: #ffb703;
+            color: white;
+        }
+
+        .clear {
+            background: #e63946;
+            color: white;
+        }
+
+        .equal {
+            background: #06d6a0;
+            color: white;
+        }
+
+        .zero {
+            grid-column: span 2;
+        }
+
+        @media (max-width: 400px) {
+            .calculator {
+                padding: 15px;
+            }
+
+            .buttons {
+                gap: 7px;
+            }
+
+            .buttons button {
+                height: 55px;
+            }
+
+            #display {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="calculator">
+
+        <h3 class="calculator-title">
+            🧮 Calculator
+        </h3>
+
+        <!-- Display -->
+        <div class="display">
+            <div id="history"></div>
+            <div id="display">0</div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="buttons">
+
+            <!-- First Row -->
+            <button class="clear" onclick="clearAll()">C</button>
+            <button class="operator" onclick="deleteLast()">⌫</button>
+            <button class="operator" onclick="appendValue('%')">%</button>
+            <button class="operator" onclick="appendValue('/')">÷</button>
+
+            <!-- Second Row -->
+            <button class="number" onclick="appendValue('7')">7</button>
+            <button class="number" onclick="appendValue('8')">8</button>
+            <button class="number" onclick="appendValue('9')">9</button>
+            <button class="operator" onclick="appendValue('*')">×</button>
+
+            <!-- Third Row -->
+            <button class="number" onclick="appendValue('4')">4</button>
+            <button class="number" onclick="appendValue('5')">5</button>
+            <button class="number" onclick="appendValue('6')">6</button>
+            <button class="operator" onclick="appendValue('-')">−</button>
+
+            <!-- Fourth Row -->
+            <button class="number" onclick="appendValue('1')">1</button>
+            <button class="number" onclick="appendValue('2')">2</button>
+            <button class="number" onclick="appendValue('3')">3</button>
+            <button class="operator" onclick="appendValue('+')">+</button>
+
+            <!-- Fifth Row -->
+            <button class="number zero" onclick="appendValue('0')">0</button>
+            <button class="number" onclick="appendValue('.')">.</button>
+            <button class="equal" onclick="calculate()">=</button>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        // Get display elements
+        const display = document.getElementById("display");
+        const history = document.getElementById("history");
+
+        let expression = "";
+
+        // Add value
+        function appendValue(value) {
+
+            // Prevent multiple operators
+            const operators = ["+", "-", "*", "/"];
+
+            if (
+                operators.includes(value) &&
+                operators.includes(expression.slice(-1))
+            ) {
+                expression = expression.slice(0, -1);
+            }
+
+            // Prevent multiple decimal points
+            if (value === ".") {
+
+                const parts = expression.split(/[\+\-\*\/]/);
+                const currentNumber = parts[parts.length - 1];
+
+                if (currentNumber.includes(".")) {
+                    return;
+                }
+            }
+
+            expression += value;
+
+            display.innerText = expression;
+        }
+
+
+        // Clear everything
+        function clearAll() {
+
+            expression = "";
+
+            display.innerText = "0";
+
+            history.innerText = "";
+        }
+
+
+        // Delete last character
+        function deleteLast() {
+
+            expression = expression.slice(0, -1);
+
+            if (expression === "") {
+                display.innerText = "0";
+            } else {
+                display.innerText = expression;
+            }
+        }
+
+
+        // Calculate result
+        function calculate() {
+
+            if (expression === "") {
+                return;
+            }
+
+            try {
+
+                let calculation = expression;
+
+                // Percentage support
+                calculation = calculation.replace(
+                    /(\d+(?:\.\d+)?)%/g,
+                    "($1/100)"
+                );
+
+                // Calculate safely
+                const result = Function(
+                    `"use strict"; return (${calculation})`
+                )();
+
+                if (!Number.isFinite(result)) {
+                    throw new Error("Invalid calculation");
+                }
+
+                history.innerText = expression + " =";
+
+                expression = String(
+                    Number(result.toFixed(10))
+                );
+
+                display.innerText = expression;
+
+            } catch (error) {
+
+                display.innerText = "Error";
+                expression = "";
+
+            }
+        }
+
+
+        // Keyboard support
+        document.addEventListener("keydown", function(event) {
+
+            const key = event.key;
+
+            if (
+                (key >= "0" && key <= "9") ||
+                ["+", "-", "*", "/", "."].includes(key)
+            ) {
+
+                appendValue(key);
+
+            } else if (key === "Enter" || key === "=") {
+
+                calculate();
+
+            } else if (key === "Backspace") {
+
+                deleteLast();
+
+            } else if (key === "Escape" || key.toLowerCase() === "c") {
+
+                clearAll();
+
+            } else if (key === "%") {
+
+                appendValue("%");
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
+```

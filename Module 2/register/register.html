@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .form-box,
+        .success-box {
+            width: 100%;
+            max-width: 650px;
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .title h1 {
+            color: #333;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .title p {
+            color: #777;
+        }
+
+        .row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .input-group {
+            flex: 1;
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: #444;
+            margin-bottom: 7px;
+            font-size: 14px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102,126,234,0.3);
+        }
+
+        textarea {
+            height: 90px;
+            resize: none;
+        }
+
+        .gender {
+            display: flex;
+            gap: 25px;
+            padding-top: 8px;
+        }
+
+        .gender label {
+            font-weight: normal;
+        }
+
+        .gender input {
+            width: auto;
+            margin-right: 5px;
+        }
+
+        .required {
+            color: red;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        /* Success Page */
+        #success {
+            display: none;
+            text-align: center;
+        }
+
+        #success:target {
+            display: block;
+        }
+
+        #success:target ~ .form-box {
+            display: none;
+        }
+
+        .success-icon {
+            font-size: 65px;
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+
+        .success-box h1 {
+            color: #28a745;
+            margin-bottom: 12px;
+        }
+
+        .success-box p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 600px) {
+            .row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .form-box {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SUCCESS MESSAGE -->
+    <div class="success-box" id="success">
+
+        <div class="success-icon">✓</div>
+
+        <h1>Successfully Submitted!</h1>
+
+        <p>
+            Your student registration has been submitted successfully.
+        </p>
+
+        <a href="#" class="back-btn">← Back to Registration</a>
+
+    </div>
+
+
+    <!-- REGISTRATION FORM -->
+    <div class="form-box">
+
+        <div class="title">
+            <h1>🎓 Student Registration</h1>
+            <p>Register your details to join our institution</p>
+        </div>
+
+        <form action="#success" method="get">
+
+            <div class="row">
+
+                <div class="input-group">
+                    <label>
+                        First Name <span class="required">*</span>
+                    </label>
+                    <input type="text"
+                           placeholder="Enter first name"
+                           required>
+                </div>
+
+                <div class="input-group">
+                    <label>
+                        Last Name <span class="required">*</span>
+                    </label>
+                    <input type="text"
+                           placeholder="Enter last name"
+                           required>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+                <div class="input-group">
+                    <label>
+                        Email <span class="required">*</span>
+                    </label>
+                    <input type="email"
+                           placeholder="example@gmail.com"
+                           required>
+                </div>
+
+                <div class="input-group">
+                    <label>
+                        Phone Number <span class="required">*</span>
+                    </label>
+                    <input type="tel"
+                           placeholder="Enter phone number"
+                           required>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+                <div class="input-group">
+                    <label>
+                        Date of Birth <span class="required">*</span>
+                    </label>
+                    <input type="date" required>
+                </div>
+
+                <div class="input-group">
+                    <label>
+                        Course <span class="required">*</span>
+                    </label>
+
+                    <select required>
+                        <option value="">Select Course</option>
+                        <option>B.Sc Computer Science</option>
+                        <option>BCA</option>
+                        <option>B.E CSE</option>
+                        <option>B.Tech IT</option>
+                        <option>MCA</option>
+                    </select>
+                </div>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    Gender <span class="required">*</span>
+                </label>
+
+                <div class="gender">
+
+                    <label>
+                        <input type="radio"
+                               name="gender"
+                               required>
+                        Male
+                    </label>
+
+                    <label>
+                        <input type="radio"
+                               name="gender">
+                        Female
+                    </label>
+
+                    <label>
+                        <input type="radio"
+                               name="gender">
+                        Other
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    College Name <span class="required">*</span>
+                </label>
+
+                <input type="text"
+                       placeholder="Enter your college name"
+                       required>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>Address</label>
+
+                <textarea
+                    placeholder="Enter your address"></textarea>
+
+            </div>
+
+
+            <button type="submit">
+                Submit Registration →
+            </button>
+
+        </form>
+
+    </div>
+
+</body>
+</html>

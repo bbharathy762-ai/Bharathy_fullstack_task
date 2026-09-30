@@ -1,0 +1,2010 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Admission Portal</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        /* =========================
+           GLOBAL
+        ========================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background:
+                radial-gradient(circle at top left, #dbeafe, transparent 35%),
+                radial-gradient(circle at bottom right, #ede9fe, transparent 35%),
+                #f8fafc;
+            color: #1e293b;
+        }
+
+        /* =========================
+           TOP NAVBAR
+        ========================= */
+
+        .topbar {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+            padding: 15px 0;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            color: #172554;
+            font-size: 20px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 21px;
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #7c3aed
+            );
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+        }
+
+        .portal-text {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            max-width: 1150px;
+            margin: 35px auto 0;
+            padding: 0 15px;
+        }
+
+        .hero-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 28px;
+            padding: 45px;
+            color: white;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(30, 64, 175, 0.97),
+                    rgba(109, 40, 217, 0.95)
+                );
+            box-shadow:
+                0 25px 60px rgba(37, 99, 235, 0.20);
+        }
+
+        .hero-card::before {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            top: -150px;
+            right: -80px;
+        }
+
+        .hero-card::after {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.07);
+            bottom: -100px;
+            left: 30%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 14px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.14);
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 {
+            font-size: clamp(28px, 5vw, 44px);
+            font-weight: 750;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            opacity: 0.85;
+            margin-bottom: 0;
+        }
+
+        /* =========================
+           MAIN CARD
+        ========================= */
+
+        .main-container {
+            max-width: 1150px;
+            margin: -25px auto 60px;
+            padding: 0 15px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .application-card {
+            background: rgba(255,255,255,0.94);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.8);
+            border-radius: 25px;
+            padding: 35px;
+            box-shadow: 0 20px 60px rgba(15, 23, 42, 0.10);
+        }
+
+        /* =========================
+           PROGRESS
+        ========================= */
+
+        .progress-wrapper {
+            margin-bottom: 35px;
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .progress {
+            height: 7px;
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+
+        .progress-bar {
+            border-radius: 10px;
+            background: linear-gradient(
+                90deg,
+                #2563eb,
+                #7c3aed
+            );
+        }
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .form-section {
+            margin-bottom: 35px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin-bottom: 22px;
+        }
+
+        .section-number {
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 13px;
+            color: white;
+            font-weight: 700;
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #7c3aed
+            );
+        }
+
+        .section-header h4 {
+            margin: 0;
+            font-size: 19px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .section-header p {
+            margin: 2px 0 0;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        /* =========================
+           INPUTS
+        ========================= */
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+
+        .required {
+            color: #ef4444;
+        }
+
+        .input-group-custom {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            z-index: 3;
+        }
+
+        .input-icon + .form-control,
+        .input-icon + .form-select {
+            padding-left: 43px;
+        }
+
+        .form-control,
+        .form-select {
+            min-height: 50px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            color: #334155;
+            transition: all 0.2s ease;
+        }
+
+        textarea.form-control {
+            min-height: 110px;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #6366f1;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(99,102,241,0.10);
+        }
+
+        .form-control::placeholder {
+            color: #b1bac7;
+        }
+
+        /* =========================
+           COURSE CARDS
+        ========================= */
+
+        .course-option {
+            position: relative;
+        }
+
+        .course-option input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .course-label {
+            display: block;
+            padding: 18px;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            background: #f8fafc;
+            cursor: pointer;
+            transition: 0.25s;
+            height: 100%;
+        }
+
+        .course-label:hover {
+            border-color: #818cf8;
+            transform: translateY(-2px);
+        }
+
+        .course-option input:checked + .course-label {
+            border-color: #6366f1;
+            background: #eef2ff;
+            box-shadow: 0 8px 20px rgba(99,102,241,0.12);
+        }
+
+        .course-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 11px;
+            background: white;
+            color: #4f46e5;
+            margin-bottom: 10px;
+            font-size: 19px;
+        }
+
+        .course-label strong {
+            display: block;
+            font-size: 14px;
+            color: #1e293b;
+        }
+
+        .course-label small {
+            color: #94a3b8;
+        }
+
+        /* =========================
+           UPLOAD BOX
+        ========================= */
+
+        .upload-box {
+            border: 2px dashed #cbd5e1;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            background: #f8fafc;
+            transition: 0.2s;
+        }
+
+        .upload-box:hover {
+            border-color: #6366f1;
+            background: #eef2ff;
+        }
+
+        .upload-icon {
+            font-size: 30px;
+            color: #6366f1;
+            margin-bottom: 8px;
+        }
+
+        .upload-box p {
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .upload-box small {
+            color: #94a3b8;
+        }
+
+        /* =========================
+           DECLARATION
+        ========================= */
+
+        .declaration {
+            padding: 18px;
+            border-radius: 15px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
+
+        .form-check-input {
+            width: 19px;
+            height: 19px;
+            margin-top: 2px;
+        }
+
+        .form-check-input:checked {
+            background-color: #4f46e5;
+            border-color: #4f46e5;
+        }
+
+        .declaration label {
+            font-size: 13px;
+            color: #64748b;
+            padding-left: 7px;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .button-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .btn {
+            min-height: 48px;
+            border-radius: 11px;
+            padding: 10px 25px;
+            font-weight: 600;
+        }
+
+        .btn-submit {
+            border: none;
+            color: white;
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #7c3aed
+            );
+            box-shadow: 0 10px 20px rgba(79,70,229,0.20);
+        }
+
+        .btn-submit:hover {
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 13px 25px rgba(79,70,229,0.28);
+        }
+
+        /* =========================
+           SUCCESS
+        ========================= */
+
+        #successMessage {
+            display: none;
+            border: none;
+            border-radius: 16px;
+            padding: 20px;
+            background: #ecfdf5;
+            color: #065f46;
+        }
+
+        .success-icon {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #10b981;
+            color: white;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 13px;
+            margin-top: 25px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 768px) {
+
+            .hero-card {
+                padding: 30px 25px;
+                border-radius: 20px;
+            }
+
+            .application-card {
+                padding: 22px 18px;
+                border-radius: 20px;
+            }
+
+            .main-container {
+                margin-top: -15px;
+            }
+
+            .button-area {
+                flex-direction: column-reverse;
+                align-items: stretch;
+            }
+
+            .button-area .btn {
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="topbar">
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div class="brand">
+                <div class="brand-icon">
+                    <i class="bi bi-mortarboard-fill"></i>
+                </div>
+
+                <div>
+                    EduApply
+                    <div class="portal-text">
+                        Student Admission Portal
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-none d-md-block">
+                <span class="text-secondary small">
+                    <i class="bi bi-shield-check me-1"></i>
+                    Secure Application
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+</nav>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+    <div class="hero-card">
+
+        <div class="hero-content">
+
+            <div class="hero-badge">
+                <i class="bi bi-stars"></i>
+                Academic Year 2026 - 2027
+            </div>
+
+            <h1>Start Your Academic Journey</h1>
+
+            <p>
+                Complete your application below to begin your admission process.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<div class="main-container">
+
+    <div class="application-card">
+
+        <!-- Progress -->
+        <div class="progress-wrapper">
+
+            <div class="progress-top">
+                <span>Application Progress</span>
+                <span id="progressText">0% completed</span>
+            </div>
+
+            <div class="progress">
+                <div
+                    class="progress-bar"
+                    id="progressBar"
+                    style="width: 0%"
+                ></div>
+            </div>
+
+        </div>
+
+
+        <!-- Success -->
+        <div id="successMessage" class="mb-4">
+
+            <div class="success-icon">
+                <i class="bi bi-check-lg"></i>
+            </div>
+
+            <h5 class="fw-bold">
+                Application Submitted Successfully!
+            </h5>
+
+            <p class="mb-1">
+                Your application has been received.
+            </p>
+
+            <strong>
+                Application ID:
+                <span id="applicationId"></span>
+            </strong>
+
+        </div>
+
+
+        <form id="studentForm" novalidate>
+
+            <!-- =========================
+                 PERSONAL INFORMATION
+            ========================= -->
+
+            <div class="form-section">
+
+                <div class="section-header">
+
+                    <div class="section-number">01</div>
+
+                    <div>
+                        <h4>Personal Information</h4>
+                        <p>Tell us a little about yourself</p>
+                    </div>
+
+                </div>
+
+
+                <div class="row g-4">
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            First Name <span class="required">*</span>
+                        </label>
+
+                        <div class="input-group-custom">
+
+                            <i class="bi bi-person input-icon"></i>
+
+                            <input
+                                type="text"
+                                id="firstName"
+                                class="form-control"
+                                placeholder="John"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="invalid-feedback">
+                            Please enter your first name.
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Middle Name
+                        </label>
+
+                        <div class="input-group-custom">
+
+                            <i class="bi bi-person input-icon"></i>
+
+                            <input
+                                type="text"
+                                id="middleName"
+                                class="form-control"
+                                placeholder="Michael"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Last Name <span class="required">*</span>
+                        </label>
+
+                        <div class="input-group-custom">
+
+                            <i class="bi bi-person input-icon"></i>
+
+                            <input
+                                type="text"
+                                id="lastName"
+                                class="form-control"
+                                placeholder="Doe"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="invalid-feedback">
+                            Please enter your last name.
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Date of Birth <span class="required">*</span>
+                        </label>
+
+                        <div class="input-group-custom">
+
+                            <i class="bi bi-calendar3 input-icon"></i>
+
+                            <input
+                                type="date"
+                                id="dob"
+                                class="form-control"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="invalid-feedback">
+                            Please select your date of birth.
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Gender <span class="required">*</span>
+                        </label>
+
+                        <div class="input-group-custom">
+
+                            <i class="bi bi-gender-ambiguous input-icon"></i>
+
+                            <select
+                                id="gender"
+                                class="form-select"
+                                required
+                            >
+
+                                <option value="">
+                                    Select Gender
+                                </option>
+
+                                <option>Male</option>
+                                <option>Female</option>
+                                <option>Other</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="invalid-feedback">
+                            Please select your gender.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 CONTACT
+            ========================= -->
+
+            <div class="form-section">
+
+                <div class="section-header">
+
+                    <div class="section-number">02</div>
+
+                    <div>
+                        <h4>Contact Information</h4>
+                        <p>How can we reach you?</p>
+                    </div>
+
+                </div>
+
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Email Address <span class="required">*</span>
+                        </label>
+
+                        <div class="input-group-custom">
+
+                            <i class="bi bi-envelope input-icon"></i>
+
+                            <input
+                                type="email"
+                                id="email"
+                                class="form-control"
+                                placeholder="john@example.com"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="invalid-feedback">
+                            Please enter a valid email.
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Phone Number <span class="required">*</span>
+                        </label>
+
+                        <div class="input-group-custom">
+
+                            <i class="bi bi-telephone input-icon"></i>
+
+                            <input
+                                type="tel"
+                                id="phone"
+                                class="form-control"
+                                placeholder="9876543210"
+                                maxlength="10"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="invalid-feedback">
+                            Enter a valid 10-digit phone number.
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-12">
+
+                        <label class="form-label">
+                            Address <span class="required">*</span>
+                        </label>
+
+                        <textarea
+                            id="address"
+                            class="form-control"
+                            placeholder="Enter your complete address"
+                            required
+                        ></textarea>
+
+                        <div class="invalid-feedback">
+                            Please enter your address.
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            City <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="city"
+                            class="form-control"
+                            placeholder="Chennai"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            State <span class="required">*</span>
+                        </label>
+
+                        <select
+                            id="state"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="">Select State</option>
+                            <option>Tamil Nadu</option>
+                            <option>Kerala</option>
+                            <option>Karnataka</option>
+                            <option>Andhra Pradesh</option>
+                            <option>Telangana</option>
+                            <option>Maharashtra</option>
+                            <option>Other</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            PIN Code <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="pincode"
+                            class="form-control"
+                            placeholder="600001"
+                            maxlength="6"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 ACADEMIC
+            ========================= -->
+
+            <div class="form-section">
+
+                <div class="section-header">
+
+                    <div class="section-number">03</div>
+
+                    <div>
+                        <h4>Academic Information</h4>
+                        <p>Your educational background</p>
+                    </div>
+
+                </div>
+
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Previous School / College
+                            <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="school"
+                            class="form-control"
+                            placeholder="Enter institution name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Highest Qualification
+                            <span class="required">*</span>
+                        </label>
+
+                        <select
+                            id="qualification"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="">
+                                Select Qualification
+                            </option>
+
+                            <option>10th</option>
+                            <option>12th</option>
+                            <option>Diploma</option>
+                            <option>Undergraduate</option>
+                            <option>Postgraduate</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Percentage / CGPA
+                            <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="number"
+                            id="percentage"
+                            class="form-control"
+                            placeholder="85"
+                            min="0"
+                            max="100"
+                            step="0.01"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Passing Year <span class="required">*</span>
+                        </label>
+
+                        <select
+                            id="passingYear"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="">
+                                Select Year
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 COURSE
+            ========================= -->
+
+            <div class="form-section">
+
+                <div class="section-header">
+
+                    <div class="section-number">04</div>
+
+                    <div>
+                        <h4>Choose Your Course</h4>
+                        <p>Select the program you want to apply for</p>
+                    </div>
+
+                </div>
+
+
+                <div class="row g-3">
+
+                    <div class="col-md-4">
+
+                        <div class="course-option">
+
+                            <input
+                                type="radio"
+                                name="course"
+                                id="bca"
+                                value="BCA"
+                                required
+                            >
+
+                            <label
+                                class="course-label"
+                                for="bca"
+                            >
+
+                                <div class="course-icon">
+                                    <i class="bi bi-code-slash"></i>
+                                </div>
+
+                                <strong>BCA</strong>
+                                <small>Computer Applications</small>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <div class="course-option">
+
+                            <input
+                                type="radio"
+                                name="course"
+                                id="bsc"
+                                value="B.Sc Computer Science"
+                            >
+
+                            <label
+                                class="course-label"
+                                for="bsc"
+                            >
+
+                                <div class="course-icon">
+                                    <i class="bi bi-cpu"></i>
+                                </div>
+
+                                <strong>B.Sc Computer Science</strong>
+                                <small>Computer Science</small>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <div class="course-option">
+
+                            <input
+                                type="radio"
+                                name="course"
+                                id="bba"
+                                value="BBA"
+                            >
+
+                            <label
+                                class="course-label"
+                                for="bba"
+                            >
+
+                                <div class="course-icon">
+                                    <i class="bi bi-briefcase"></i>
+                                </div>
+
+                                <strong>BBA</strong>
+                                <small>Business Administration</small>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <div class="course-option">
+
+                            <input
+                                type="radio"
+                                name="course"
+                                id="bcom"
+                                value="B.Com"
+                            >
+
+                            <label
+                                class="course-label"
+                                for="bcom"
+                            >
+
+                                <div class="course-icon">
+                                    <i class="bi bi-bar-chart"></i>
+                                </div>
+
+                                <strong>B.Com</strong>
+                                <small>Commerce</small>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <div class="course-option">
+
+                            <input
+                                type="radio"
+                                name="course"
+                                id="mba"
+                                value="MBA"
+                            >
+
+                            <label
+                                class="course-label"
+                                for="mba"
+                            >
+
+                                <div class="course-icon">
+                                    <i class="bi bi-graph-up-arrow"></i>
+                                </div>
+
+                                <strong>MBA</strong>
+                                <small>Business Management</small>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <div class="course-option">
+
+                            <input
+                                type="radio"
+                                name="course"
+                                id="mca"
+                                value="MCA"
+                            >
+
+                            <label
+                                class="course-label"
+                                for="mca"
+                            >
+
+                                <div class="course-icon">
+                                    <i class="bi bi-laptop"></i>
+                                </div>
+
+                                <strong>MCA</strong>
+                                <small>Computer Applications</small>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="invalid-feedback d-block" id="courseError"></div>
+
+            </div>
+
+
+            <!-- =========================
+                 GUARDIAN
+            ========================= -->
+
+            <div class="form-section">
+
+                <div class="section-header">
+
+                    <div class="section-number">05</div>
+
+                    <div>
+                        <h4>Parent / Guardian Details</h4>
+                        <p>Emergency and guardian information</p>
+                    </div>
+
+                </div>
+
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Guardian Name <span class="required">*</span>
+                        </label>
+
+                        <div class="input-group-custom">
+
+                            <i class="bi bi-person-vcard input-icon"></i>
+
+                            <input
+                                type="text"
+                                id="guardianName"
+                                class="form-control"
+                                placeholder="Parent / Guardian name"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Relationship <span class="required">*</span>
+                        </label>
+
+                        <select
+                            id="relationship"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="">
+                                Select Relationship
+                            </option>
+
+                            <option>Father</option>
+                            <option>Mother</option>
+                            <option>Guardian</option>
+                            <option>Other</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Guardian Phone <span class="required">*</span>
+                        </label>
+
+                        <div class="input-group-custom">
+
+                            <i class="bi bi-telephone input-icon"></i>
+
+                            <input
+                                type="tel"
+                                id="guardianPhone"
+                                class="form-control"
+                                placeholder="9876543210"
+                                maxlength="10"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Occupation
+                        </label>
+
+                        <input
+                            type="text"
+                            id="occupation"
+                            class="form-control"
+                            placeholder="Guardian occupation"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 DOCUMENTS
+            ========================= -->
+
+            <div class="form-section">
+
+                <div class="section-header">
+
+                    <div class="section-number">06</div>
+
+                    <div>
+                        <h4>Upload Documents</h4>
+                        <p>Upload your required documents</p>
+                    </div>
+
+                </div>
+
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Student Photo
+                            <span class="required">*</span>
+                        </label>
+
+                        <div class="upload-box">
+
+                            <div class="upload-icon">
+                                <i class="bi bi-cloud-arrow-up"></i>
+                            </div>
+
+                            <p>Upload your photo</p>
+
+                            <small>
+                                JPG or PNG • Max 2MB
+                            </small>
+
+                            <input
+                                type="file"
+                                id="photo"
+                                class="form-control mt-3"
+                                accept="image/*"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Academic Certificate
+                        </label>
+
+                        <div class="upload-box">
+
+                            <div class="upload-icon">
+                                <i class="bi bi-file-earmark-arrow-up"></i>
+                            </div>
+
+                            <p>Upload certificate</p>
+
+                            <small>
+                                PDF, JPG or PNG
+                            </small>
+
+                            <input
+                                type="file"
+                                id="certificate"
+                                class="form-control mt-3"
+                                accept=".pdf,.jpg,.jpeg,.png"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 DECLARATION
+            ========================= -->
+
+            <div class="form-section">
+
+                <div class="section-header">
+
+                    <div class="section-number">07</div>
+
+                    <div>
+                        <h4>Declaration</h4>
+                        <p>Please confirm your information</p>
+                    </div>
+
+                </div>
+
+
+                <div class="declaration">
+
+                    <div class="form-check">
+
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            id="terms"
+                            required
+                        >
+
+                        <label
+                            class="form-check-label"
+                            for="terms"
+                        >
+
+                            I hereby declare that all the information
+                            provided in this application is true and
+                            complete to the best of my knowledge.
+
+                            <span class="required">*</span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 BUTTONS
+            ========================= -->
+
+            <div class="button-area">
+
+                <button
+                    type="reset"
+                    class="btn btn-light border"
+                    id="resetBtn"
+                >
+                    <i class="bi bi-arrow-counterclockwise me-2"></i>
+                    Reset Form
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-submit"
+                >
+                    Submit Application
+                    <i class="bi bi-arrow-right ms-2"></i>
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <div class="footer">
+        © 2026 EduApply • Student Admission Portal
+    </div>
+
+</div>
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script>
+
+    /* =====================================
+       ELEMENTS
+    ===================================== */
+
+    const form = document.getElementById("studentForm");
+
+    const phone = document.getElementById("phone");
+
+    const guardianPhone =
+        document.getElementById("guardianPhone");
+
+    const pincode =
+        document.getElementById("pincode");
+
+    const percentage =
+        document.getElementById("percentage");
+
+    const passingYear =
+        document.getElementById("passingYear");
+
+    const progressBar =
+        document.getElementById("progressBar");
+
+    const progressText =
+        document.getElementById("progressText");
+
+    const successMessage =
+        document.getElementById("successMessage");
+
+    const applicationId =
+        document.getElementById("applicationId");
+
+
+    /* =====================================
+       GENERATE YEARS
+    ===================================== */
+
+    const currentYear = new Date().getFullYear();
+
+    for (
+        let year = currentYear;
+        year >= currentYear - 20;
+        year--
+    ) {
+
+        const option =
+            document.createElement("option");
+
+        option.value = year;
+        option.textContent = year;
+
+        passingYear.appendChild(option);
+    }
+
+
+    /* =====================================
+       NUMERIC INPUT
+    ===================================== */
+
+    [phone, guardianPhone, pincode]
+        .forEach(input => {
+
+            input.addEventListener("input", () => {
+
+                input.value =
+                    input.value.replace(/\D/g, "");
+
+            });
+
+        });
+
+
+    /* =====================================
+       PROGRESS
+    ===================================== */
+
+    const updateProgress = () => {
+
+        const requiredFields =
+            form.querySelectorAll(
+                "input[required], select[required], textarea[required]"
+            );
+
+        let completed = 0;
+
+        requiredFields.forEach(field => {
+
+            if (
+                field.type === "radio"
+            ) {
+                return;
+            }
+
+            if (
+                field.type === "checkbox"
+                && field.checked
+            ) {
+                completed++;
+            }
+
+            else if (
+                field.type !== "checkbox"
+                && field.value.trim() !== ""
+            ) {
+                completed++;
+            }
+
+        });
+
+
+        // Course selection
+        const courseSelected =
+            document.querySelector(
+                'input[name="course"]:checked'
+            );
+
+        const courseInputs =
+            document.querySelectorAll(
+                'input[name="course"]'
+            );
+
+        if (courseSelected) {
+            completed++;
+        }
+
+        const total =
+            requiredFields.length -
+            courseInputs.length +
+            1;
+
+        let percentageValue =
+            Math.round(
+                (completed / total) * 100
+            );
+
+        percentageValue =
+            Math.min(100, percentageValue);
+
+        progressBar.style.width =
+            `${percentageValue}%`;
+
+        progressText.textContent =
+            `${percentageValue}% completed`;
+    };
+
+
+    form.addEventListener(
+        "input",
+        updateProgress
+    );
+
+    form.addEventListener(
+        "change",
+        updateProgress
+    );
+
+
+    /* =====================================
+       SUBMIT
+    ===================================== */
+
+    form.addEventListener(
+        "submit",
+        event => {
+
+            event.preventDefault();
+
+            let isValid = true;
+
+
+            /* Bootstrap validation */
+
+            if (!form.checkValidity()) {
+
+                isValid = false;
+
+            }
+
+
+            /* Phone */
+
+            const phonePattern =
+                /^[6-9]\d{9}$/;
+
+
+            if (!phonePattern.test(phone.value)) {
+
+                phone.classList.add("is-invalid");
+
+                isValid = false;
+
+            } else {
+
+                phone.classList.remove("is-invalid");
+                phone.classList.add("is-valid");
+
+            }
+
+
+            /* Guardian Phone */
+
+            if (
+                !phonePattern.test(
+                    guardianPhone.value
+                )
+            ) {
+
+                guardianPhone.classList.add(
+                    "is-invalid"
+                );
+
+                isValid = false;
+
+            } else {
+
+                guardianPhone.classList.remove(
+                    "is-invalid"
+                );
+
+                guardianPhone.classList.add(
+                    "is-valid"
+                );
+
+            }
+
+
+            /* PIN */
+
+            if (
+                !/^\d{6}$/.test(
+                    pincode.value
+                )
+            ) {
+
+                pincode.classList.add(
+                    "is-invalid"
+                );
+
+                isValid = false;
+
+            }
+
+
+            /* Percentage */
+
+            const percentageValue =
+                Number(percentage.value);
+
+
+            if (
+                percentage.value === ""
+                ||
+                percentageValue < 0
+                ||
+                percentageValue > 100
+            ) {
+
+                percentage.classList.add(
+                    "is-invalid"
+                );
+
+                isValid = false;
+
+            }
+
+
+            /* Course */
+
+            const selectedCourse =
+                document.querySelector(
+                    'input[name="course"]:checked'
+                );
+
+            const courseError =
+                document.getElementById(
+                    "courseError"
+                );
+
+
+            if (!selectedCourse) {
+
+                courseError.textContent =
+                    "Please select a course.";
+
+                isValid = false;
+
+            } else {
+
+                courseError.textContent = "";
+
+            }
+
+
+            /* Stop */
+
+            if (!isValid) {
+
+                form.classList.add(
+                    "was-validated"
+                );
+
+                return;
+            }
+
+
+            /* =================================
+               APPLICATION ID
+            ================================= */
+
+            const randomNumber =
+                Math.floor(
+                    100000 +
+                    Math.random() * 900000
+                );
+
+
+            const generatedId =
+                `EDU-${currentYear}-${randomNumber}`;
+
+
+            applicationId.textContent =
+                generatedId;
+
+
+            /* =================================
+               SUCCESS
+            ================================= */
+
+            successMessage.style.display =
+                "block";
+
+
+            successMessage.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+
+            /* =================================
+               FORM DATA
+            ================================= */
+
+            const formData =
+                new FormData(form);
+
+
+            console.log(
+                "===== STUDENT APPLICATION ====="
+            );
+
+
+            for (
+                const [key, value]
+                of formData.entries()
+            ) {
+
+                console.log(
+                    `${key}: ${value}`
+                );
+
+            }
+
+        }
+    );
+
+
+    /* =====================================
+       RESET
+    ===================================== */
+
+    document
+        .getElementById("resetBtn")
+        .addEventListener(
+            "click",
+            () => {
+
+                form.classList.remove(
+                    "was-validated"
+                );
+
+
+                document
+                    .querySelectorAll(
+                        ".is-valid, .is-invalid"
+                    )
+                    .forEach(element => {
+
+                        element.classList.remove(
+                            "is-valid",
+                            "is-invalid"
+                        );
+
+                    });
+
+
+                successMessage.style.display =
+                    "none";
+
+
+                document
+                    .getElementById(
+                        "courseError"
+                    )
+                    .textContent = "";
+
+
+                progressBar.style.width =
+                    "0%";
+
+
+                progressText.textContent =
+                    "0% completed";
+
+            }
+        );
+
+</script>
+
+</body>
+</html>
+```

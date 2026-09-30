@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aura Creators — Event Management</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --cream: #fffaf7;
+      --white: #ffffff;
+      --pink: #f7cdd7;
+      --pink-dark: #d9879b;
+      --rose: #b95d78;
+      --lavender: #e9ddf7;
+      --peach: #f8dcc8;
+      --yellow: #f7e8ae;
+      --green: #d9eadf;
+      --text: #40353a;
+      --muted: #8c7d83;
+      --border: #eee1e5;
+      --shadow: 0 12px 35px rgba(112, 72, 87, 0.10);
+    }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      background: var(--cream);
+      color: var(--text);
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    /* ---------- DECOR ---------- */
+
+    .charm {
+      position: fixed;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .75;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .charm.one {
+      top: 110px;
+      left: 3%;
+      font-size: 30px;
+    }
+
+    .charm.two {
+      top: 330px;
+      right: 4%;
+      font-size: 26px;
+      animation-delay: 1s;
+    }
+
+    .charm.three {
+      bottom: 40px;
+      left: 7%;
+      font-size: 24px;
+      animation-delay: 2s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) rotate(-5deg);
+      }
+      50% {
+        transform: translateY(-10px) rotate(5deg);
+      }
+    }
+
+    /* ---------- SIDEBAR ---------- */
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 245px;
+      height: 100vh;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(15px);
+      border-right: 1px solid var(--border);
+      padding: 28px 20px;
+      z-index: 20;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 45px;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: var(--pink);
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      box-shadow: 0 7px 20px rgba(217,135,155,.25);
+    }
+
+    .brand h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 21px;
+    }
+
+    .brand span {
+      display: block;
+      color: var(--rose);
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .nav-title {
+      font-size: 11px;
+      color: #b3a4aa;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin: 20px 12px 10px;
+    }
+
+    .nav-btn {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 13px 14px;
+      border-radius: 13px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      margin-bottom: 5px;
+      text-align: left;
+      transition: .25s;
+    }
+
+    .nav-btn:hover {
+      background: #fff1f4;
+      color: var(--rose);
+      transform: translateX(3px);
+    }
+
+    .nav-btn.active {
+      background: #fce5eb;
+      color: var(--rose);
+      font-weight: 700;
+    }
+
+    .profile-card {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 25px;
+      padding: 13px;
+      background: #fff7f8;
+      border-radius: 17px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--lavender);
+    }
+
+    .profile-card strong {
+      font-size: 13px;
+    }
+
+    .profile-card small {
+      color: var(--muted);
+    }
+
+    /* ---------- MAIN ---------- */
+
+    main {
+      margin-left: 245px;
+      padding: 28px 45px 60px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 35px;
+    }
+
+    .welcome small {
+      color: var(--muted);
+    }
+
+    .welcome h1 {
+      font-family: "Playfair Display", serif;
+      font-size: 34px;
+      margin-top: 4px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .icon-btn {
+      border: 1px solid var(--border);
+      background: white;
+      width: 43px;
+      height: 43px;
+      border-radius: 13px;
+      transition: .25s;
+    }
+
+    .icon-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .create-btn {
+      border: none;
+      background: var(--rose);
+      color: white;
+      padding: 13px 19px;
+      border-radius: 13px;
+      font-weight: 700;
+      transition: .25s;
+      box-shadow: 0 7px 20px rgba(185,93,120,.25);
+    }
+
+    .create-btn:hover {
+      transform: translateY(-2px);
+      background: #a94e69;
+    }
+
+    /* ---------- HERO ---------- */
+
+    .hero {
+      background:
+        radial-gradient(circle at 85% 20%, rgba(255,255,255,.8), transparent 30%),
+        linear-gradient(120deg, #f7d6df, #eee2f7 55%, #fcebdc);
+      border-radius: 27px;
+      padding: 42px;
+      min-height: 235px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-bottom: 28px;
+    }
+
+    .hero h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 39px;
+      max-width: 600px;
+      line-height: 1.1;
+    }
+
+    .hero p {
+      max-width: 540px;
+      margin-top: 14px;
+      color: #715f67;
+      line-height: 1.6;
+    }
+
+    .hero-btn {
+      margin-top: 22px;
+      border: none;
+      background: white;
+      color: var(--rose);
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      box-shadow: 0 5px 18px rgba(0,0,0,.06);
+    }
+
+    .hero-decoration {
+      position: absolute;
+      right: 8%;
+      top: 20px;
+      font-size: 90px;
+      transform: rotate(10deg);
+      opacity: .7;
+    }
+
+    /* ---------- STATS ---------- */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 17px;
+      margin-bottom: 32px;
+    }
+
+    .stat {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      transition: .25s;
+    }
+
+    .stat:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    .stat-icon {
+      font-size: 21px;
+      margin-bottom: 12px;
+    }
+
+    .stat h3 {
+      font-size: 26px;
+    }
+
+    .stat p {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    /* ---------- EVENTS ---------- */
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .section-head h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 27px;
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--muted);
+      border-radius: 20px;
+      padding: 8px 14px;
+      transition: .2s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: #fce5eb;
+      border-color: #f4c3ce;
+      color: var(--rose);
+    }
+
+    .event-grid {
+      columns: 3 280px;
+      column-gap: 18px;
+    }
+
+    .event-card {
+      background: white;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 18px;
+      break-inside: avoid;
+      box-shadow: 0 5px 20px rgba(80,50,60,.05);
+      transition: .3s;
+    }
+
+    .event-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
+    .event-image {
+      height: 185px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 55px;
+    }
+
+    .pink {
+      background: #f7d4de;
+    }
+
+    .purple {
+      background: #e6daf5;
+    }
+
+    .peach {
+      background: #f8dfcb;
+    }
+
+    .green {
+      background: #dcecdf;
+    }
+
+    .yellow {
+      background: #f6e8b4;
+    }
+
+    .date-pill {
+      position: absolute;
+      left: 13px;
+      top: 13px;
+      background: rgba(255,255,255,.9);
+      padding: 7px 10px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--rose);
+    }
+
+    .heart {
+      position: absolute;
+      right: 13px;
+      top: 13px;
+      width: 35px;
+      height: 35px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255,255,255,.9);
+      font-size: 18px;
+      transition: .2s;
+    }
+
+    .heart:hover {
+      transform: scale(1.1);
+    }
+
+    .heart.saved {
+      color: #d55b79;
+      background: #fff0f3;
+    }
+
+    .event-body {
+      padding: 17px;
+    }
+
+    .event-tag {
+      color: var(--rose);
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .event-body h3 {
+      margin: 6px 0;
+      font-family: "Playfair Display", serif;
+      font-size: 20px;
+    }
+
+    .event-info {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .event-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 14px;
+    }
+
+    .attendees {
+      display: flex;
+      align-items: center;
+    }
+
+    .mini-avatar {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      border: 2px solid white;
+      background: var(--lavender);
+      margin-left: -6px;
+      display: grid;
+      place-items: center;
+      font-size: 10px;
+    }
+
+    .mini-avatar:first-child {
+      margin-left: 0;
+    }
+
+    .view-btn {
+      border: 0;
+      background: #fff1f4;
+      color: var(--rose);
+      padding: 8px 11px;
+      border-radius: 9px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    /* ---------- MODAL ---------- */
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(52,35,42,.45);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 480px;
+      background: white;
+      border-radius: 25px;
+      padding: 27px;
+      box-shadow: 0 25px 70px rgba(0,0,0,.18);
+      animation: pop .25s ease;
+    }
+
+    @keyframes pop {
+      from {
+        transform: scale(.94);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .modal-head h2 {
+      font-family: "Playfair Display", serif;
+    }
+
+    .close {
+      border: 0;
+      background: #f8f1f3;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 7px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      border: 1px solid var(--border);
+      padding: 12px;
+      border-radius: 11px;
+      outline: none;
+      background: #fffafa;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--pink-dark);
+      box-shadow: 0 0 0 3px #fdebef;
+    }
+
+    .submit-btn {
+      width: 100%;
+      border: none;
+      background: var(--rose);
+      color: white;
+      padding: 13px;
+      border-radius: 12px;
+      font-weight: 700;
+      margin-top: 5px;
+    }
+
+    /* ---------- TOAST ---------- */
+
+    .toast {
+      position: fixed;
+      right: 25px;
+      bottom: 25px;
+      background: #43373c;
+      color: white;
+      padding: 13px 17px;
+      border-radius: 12px;
+      font-size: 13px;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: .3s;
+      z-index: 200;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+
+    @media(max-width: 1000px) {
+      .sidebar {
+        width: 80px;
+        padding: 20px 10px;
+      }
+
+      .brand h2,
+      .brand span,
+      .nav-btn span,
+      .nav-title,
+      .profile-card div {
+        display: none;
+      }
+
+      .brand {
+        justify-content: center;
+      }
+
+      .nav-btn {
+        justify-content: center;
+      }
+
+      .profile-card {
+        justify-content: center;
+      }
+
+      main {
+        margin-left: 80px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media(max-width: 650px) {
+      .sidebar {
+        position: fixed;
+        bottom: 0;
+        top: auto;
+        width: 100%;
+        height: 68px;
+        border-right: 0;
+        border-top: 1px solid var(--border);
+        padding: 5px 10px;
+      }
+
+      .brand,
+      .profile-card,
+      .nav-title {
+        display: none;
+      }
+
+      .sidebar nav {
+        display: flex;
+        justify-content: space-around;
+      }
+
+      .nav-btn {
+        width: 50px;
+        margin: 0;
+      }
+
+      main {
+        margin-left: 0;
+        padding: 20px 15px 90px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+      }
+
+      .top-actions .icon-btn {
+        display: none;
+      }
+
+      .welcome h1 {
+        font-size: 27px;
+      }
+
+      .hero {
+        padding: 28px;
+      }
+
+      .hero h2 {
+        font-size: 30px;
+      }
+
+      .hero-decoration {
+        right: -10px;
+        opacity: .35;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .filters {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Floating Pinterest-style charms -->
+  <div class="charm one">♡</div>
+  <div class="charm two">✦</div>
+  <div class="charm three">୨୧</div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="brand">
+      <div class="brand-icon">✿</div>
+      <div>
+        <h2>Aura Creators</h2>
+        <span>Make moments magical</span>
+      </div>
+    </div>
+
+    <div class="nav-title">Workspace</div>
+
+    <nav>
+      <button class="nav-btn active" data-section="dashboard">
+        <span>⌂</span>
+        <span>Dashboard</span>
+      </button>
+
+      <button class="nav-btn" data-section="events">
+        <span>♡</span>
+        <span>My Events</span>
+      </button>
+
+      <button class="nav-btn" data-section="calendar">
+        <span>▣</span>
+        <span>Calendar</span>
+      </button>
+
+      <button class="nav-btn" data-section="guests">
+        <span>♧</span>
+        <span>Guests</span>
+      </button>
+    </nav>
+
+    <div class="nav-title">Manage</div>
+
+    <nav>
+      <button class="nav-btn" id="settingsBtn">
+        <span>⚙</span>
+        <span>Settings</span>
+      </button>
+    </nav>
+
+    <div class="profile-card">
+      <div class="avatar">🌷</div>
+      <div>
+        <strong>Creative Soul</strong><br />
+        <small>Event planner</small>
+      </div>
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN -->
+  <main>
+
+    <header class="topbar">
+      <div class="welcome">
+        <small>Good morning, creator ✨</small>
+        <h1>Let's create some magic.</h1>
+      </div>
+
+      <div class="top-actions">
+        <button class="icon-btn" id="notificationBtn">♡</button>
+        <button class="create-btn" id="openModal">+ Create Event</button>
+      </div>
+    </header>
+
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-decoration">🎀</div>
+
+      <h2>Turn your ideas into beautiful moments.</h2>
+
+      <p>
+        Plan, organize and celebrate every little moment with
+        <strong>Aura Creators</strong> — your dreamy event workspace.
+      </p>
+
+      <button class="hero-btn" id="exploreBtn">
+        Explore upcoming events ✨
+      </button>
+    </section>
+
+
+    <!-- STATS -->
+    <section class="stats">
+
+      <div class="stat">
+        <div class="stat-icon">🌸</div>
+        <h3 id="eventCount">12</h3>
+        <p>Total Events</p>
+      </div>
+
+      <div class="stat">
+        <div class="stat-icon">♡</div>
+        <h3>248</h3>
+        <p>Happy Guests</p>
+      </div>
+
+      <div class="stat">
+        <div class="stat-icon">✦</div>
+        <h3>08</h3>
+        <p>Upcoming</p>
+      </div>
+
+      <div class="stat">
+        <div class="stat-icon">☼</div>
+        <h3>96%</h3>
+        <p>Event Success</p>
+      </div>
+
+    </section>
+
+
+    <!-- EVENTS -->
+    <section id="eventsSection">
+
+      <div class="section-head">
+
+        <h2>Upcoming moments</h2>
+
+        <div class="filters">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="birthday">Birthday</button>
+          <button class="filter-btn" data-filter="wedding">Wedding</button>
+          <button class="filter-btn" data-filter="party">Party</button>
+        </div>
+
+      </div>
+
+
+      <div class="event-grid" id="eventGrid">
+
+        <!-- CARD 1 -->
+        <article class="event-card" data-category="birthday">
+
+          <div class="event-image pink">
+            <span class="date-pill">OCT 05</span>
+            <button class="heart">♡</button>
+            🎂
+          </div>
+
+          <div class="event-body">
+            <span class="event-tag">Birthday</span>
+            <h3>Amelia's Garden Party</h3>
+
+            <div class="event-info">
+              ♧ Rosewood Garden<br />
+              ◷ 05:00 PM · Saturday
+            </div>
+
+            <div class="event-footer">
+              <div class="attendees">
+                <div class="mini-avatar">🌷</div>
+                <div class="mini-avatar">🦋</div>
+                <div class="mini-avatar">🌸</div>
+              </div>
+
+              <button class="view-btn">View Event</button>
+            </div>
+          </div>
+
+        </article>
+
+
+        <!-- CARD 2 -->
+        <article class="event-card" data-category="wedding">
+
+          <div class="event-image purple">
+            <span class="date-pill">OCT 12</span>
+            <button class="heart">♡</button>
+            💍
+          </div>
+
+          <div class="event-body">
+            <span class="event-tag">Wedding</span>
+            <h3>Lavender Love</h3>
+
+            <div class="event-info">
+              ♧ Lavender Estate<br />
+              ◷ 06:30 PM · Sunday
+            </div>
+
+            <div class="event-footer">
+              <div class="attendees">
+                <div class="mini-avatar">💜</div>
+                <div class="mini-avatar">🌙</div>
+                <div class="mini-avatar">✨</div>
+              </div>
+
+              <button class="view-btn">View Event</button>
+            </div>
+          </div>
+
+        </article>
+
+
+        <!-- CARD 3 -->
+        <article class="event-card" data-category="party">
+
+          <div class="event-image peach">
+            <span class="date-pill">OCT 18</span>
+            <button class="heart">♡</button>
+            🪩
+          </div>
+
+          <div class="event-body">
+            <span class="event-tag">Party</span>
+            <h3>Moonlight Social</h3>
+
+            <div class="event-info">
+              ♧ The Velvet Room<br />
+              ◷ 08:00 PM · Friday
+            </div>
+
+            <div class="event-footer">
+              <div class="attendees">
+                <div class="mini-avatar">🌙</div>
+                <div class="mini-avatar">⭐</div>
+                <div class="mini-avatar">🪩</div>
+              </div>
+
+              <button class="view-btn">View Event</button>
+            </div>
+          </div>
+
+        </article>
+
+
+        <!-- CARD 4 -->
+        <article class="event-card" data-category="birthday">
+
+          <div class="event-image green">
+            <span class="date-pill">OCT 21</span>
+            <button class="heart">♡</button>
+            🧁
+          </div>
+
+          <div class="event-body">
+            <span class="event-tag">Birthday</span>
+            <h3>Cozy Birthday Brunch</h3>
+
+            <div class="event-info">
+              ♧ Bloom Café<br />
+              ◷ 11:00 AM · Monday
+            </div>
+
+            <div class="event-footer">
+              <div class="attendees">
+                <div class="mini-avatar">🌿</div>
+                <div class="mini-avatar">🍰</div>
+              </div>
+
+              <button class="view-btn">View Event</button>
+            </div>
+          </div>
+
+        </article>
+
+
+        <!-- CARD 5 -->
+        <article class="event-card" data-category="party">
+
+          <div class="event-image yellow">
+            <span class="date-pill">OCT 26</span>
+            <button class="heart">♡</button>
+            🎀
+          </div>
+
+          <div class="event-body">
+            <span class="event-tag">Party</span>
+            <h3>Pretty In Pink Night</h3>
+
+            <div class="event-info">
+              ♧ Rose House<br />
+              ◷ 07:30 PM · Saturday
+            </div>
+
+            <div class="event-footer">
+              <div class="attendees">
+                <div class="mini-avatar">🎀</div>
+                <div class="mini-avatar">🌸</div>
+                <div class="mini-avatar">💗</div>
+              </div>
+
+              <button class="view-btn">View Event</button>
+            </div>
+          </div>
+
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- CREATE EVENT MODAL -->
+  <div class="modal-overlay" id="modal">
+
+    <div class="modal">
+
+      <div class="modal-head">
+        <h2>Create a new event ✨</h2>
+        <button class="close" id="closeModal">×</button>
+      </div>
+
+      <form id="eventForm">
+
+        <div class="form-group">
+          <label>Event name</label>
+          <input
+            type="text"
+            id="eventName"
+            placeholder="e.g. Dreamy Birthday"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Event type</label>
+          <select id="eventType">
+            <option value="birthday">Birthday</option>
+            <option value="wedding">Wedding</option>
+            <option value="party">Party</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" id="eventDate" required />
+        </div>
+
+        <div class="form-group">
+          <label>Location</label>
+          <input
+            type="text"
+            id="eventLocation"
+            placeholder="Event location"
+            required
+          />
+        </div>
+
+        <button class="submit-btn" type="submit">
+          Create Event ♡
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+
+  <script>
+
+    /* ---------------------------
+       ELEMENTS
+    --------------------------- */
+
+    const modal = document.getElementById("modal");
+    const openModal = document.getElementById("openModal");
+    const closeModal = document.getElementById("closeModal");
+    const eventForm = document.getElementById("eventForm");
+    const eventGrid = document.getElementById("eventGrid");
+    const toast = document.getElementById("toast");
+    const eventCount = document.getElementById("eventCount");
+
+
+    /* ---------------------------
+       MODAL
+    --------------------------- */
+
+    openModal.addEventListener("click", () => {
+      modal.classList.add("show");
+    });
+
+    closeModal.addEventListener("click", () => {
+      modal.classList.remove("show");
+    });
+
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.classList.remove("show");
+      }
+    });
+
+
+    /* ---------------------------
+       TOAST
+    --------------------------- */
+
+    function showToast(message) {
+
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2500);
+    }
+
+
+    /* ---------------------------
+       FAVORITE BUTTONS
+    --------------------------- */
+
+    function activateHearts() {
+
+      document.querySelectorAll(".heart").forEach(button => {
+
+        button.onclick = () => {
+
+          button.classList.toggle("saved");
+
+          if (button.classList.contains("saved")) {
+            button.textContent = "♥";
+            showToast("Added to your favorites ♡");
+          } else {
+            button.textContent = "♡";
+            showToast("Removed from favorites");
+          }
+
+        };
+
+      });
+
+    }
+
+    activateHearts();
+
+
+    /* ---------------------------
+       FILTERS
+    --------------------------- */
+
+    document.querySelectorAll(".filter-btn").forEach(button => {
+
+      button.addEventListener("click", () => {
+
+        document
+          .querySelectorAll(".filter-btn")
+          .forEach(btn => btn.classList.remove("active"));
+
+        button.classList.add("active");
+
+        const filter = button.dataset.filter;
+
+        document.querySelectorAll(".event-card").forEach(card => {
+
+          if (
+            filter === "all" ||
+            card.dataset.category === filter
+          ) {
+            card.style.display = "block";
+          } else {
+            card.style.display = "none";
+          }
+
+        });
+
+      });
+
+    });
+
+
+    /* ---------------------------
+       CREATE EVENT
+    --------------------------- */
+
+    eventForm.addEventListener("submit", (e) => {
+
+      e.preventDefault();
+
+      const name = document.getElementById("eventName").value;
+      const type = document.getElementById("eventType").value;
+      const date = document.getElementById("eventDate").value;
+      const location = document.getElementById("eventLocation").value;
+
+      const formattedDate = new Date(date).toLocaleDateString(
+        "en-US",
+        {
+          month: "short",
+          day: "2-digit"
+        }
+      );
+
+      let emoji = "✨";
+      let bg = "pink";
+
+      if (type === "birthday") {
+        emoji = "🎂";
+        bg = "pink";
+      }
+
+      if (type === "wedding") {
+        emoji = "💍";
+        bg = "purple";
+      }
+
+      if (type === "party") {
+        emoji = "🪩";
+        bg = "peach";
+      }
+
+      const card = document.createElement("article");
+
+      card.className = "event-card";
+      card.dataset.category = type;
+
+      card.innerHTML = `
+
+        <div class="event-image ${bg}">
+
+          <span class="date-pill">
+            ${formattedDate}
+          </span>
+
+          <button class="heart">
+            ♡
+          </button>
+
+          ${emoji}
+
+        </div>
+
+        <div class="event-body">
+
+          <span class="event-tag">
+            ${type}
+          </span>
+
+          <h3>
+            ${name}
+          </h3>
+
+          <div class="event-info">
+            ♧ ${location}<br />
+            ◷ 05:00 PM · Upcoming
+          </div>
+
+          <div class="event-footer">
+
+            <div class="attendees">
+              <div class="mini-avatar">
+                🌸
+              </div>
+
+              <div class="mini-avatar">
+                ✨
+              </div>
+            </div>
+
+            <button class="view-btn">
+              View Event
+            </button>
+
+          </div>
+
+        </div>
+      `;
+
+      eventGrid.prepend(card);
+
+      activateHearts();
+
+      modal.classList.remove("show");
+
+      eventForm.reset();
+
+      eventCount.textContent =
+        parseInt(eventCount.textContent) + 1;
+
+      showToast("Your beautiful event was created ✨");
+
+    });
+
+
+    /* ---------------------------
+       VIEW EVENT BUTTONS
+    --------------------------- */
+
+    document.addEventListener("click", (e) => {
+
+      if (e.target.classList.contains("view-btn")) {
+
+        const card = e.target.closest(".event-card");
+        const title = card.querySelector("h3").textContent;
+
+        showToast(`Opening "${title}" ♡`);
+
+      }
+
+    });
+
+
+    /* ---------------------------
+       NAVIGATION
+    --------------------------- */
+
+    document.querySelectorAll(".nav-btn[data-section]").forEach(button => {
+
+      button.addEventListener("click", () => {
+
+        document
+          .querySelectorAll(".nav-btn")
+          .forEach(btn => btn.classList.remove("active"));
+
+        button.classList.add("active");
+
+        const section = button.dataset.section;
+
+        if (section === "events") {
+
+          document.getElementById("eventsSection")
+            .scrollIntoView({
+              behavior: "smooth"
+            });
+
+        }
+
+        else if (section === "dashboard") {
+
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+
+        }
+
+        else {
+
+          showToast(
+            section.charAt(0).toUpperCase() +
+            section.slice(1) +
+            " section selected ✨"
+          );
+
+        }
+
+      });
+
+    });
+
+
+    /* ---------------------------
+       EXTRA BUTTONS
+    --------------------------- */
+
+    document
+      .getElementById("notificationBtn")
+      .addEventListener("click", () => {
+
+        showToast("No new notifications ♡");
+
+      });
+
+
+    document
+      .getElementById("settingsBtn")
+      .addEventListener("click", () => {
+
+        showToast("Settings are coming soon ✨");
+
+      });
+
+
+    document
+      .getElementById("exploreBtn")
+      .addEventListener("click", () => {
+
+        document
+          .getElementById("eventsSection")
+          .scrollIntoView({
+            behavior: "smooth"
+          });
+
+      });
+
+  </script>
+
+</body>
+</html>
