@@ -1,16 +1,60 @@
-# React + Vite
+# 🚀 Module 4 - Task 4: React User API
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+## 📌 Description
 
-Currently, two official plugins are available:
+This project is a React application that fetches user details from the JSONPlaceholder API and displays them in a table.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🛠️ Technologies Used
 
-## React Compiler
+- ⚛️ React
+- 🟨 JavaScript
+- ⚡ Vite
+- 🔄 useState()
+- 🔁 useEffect()
+- 🌐 Fetch API
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🌐 API
 
-## Expanding the Oxlint configuration
+https://jsonplaceholder.typicode.com/users
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## ✨ Features
+
+- 📥 Fetches user data from the API
+- 🆔 Displays User ID
+- 👤 Displays Name
+- 🔤 Displays Username
+- 📧 Displays Email
+- ⏳ Shows `Loading...` while fetching data
+- ❌ Shows an error message if the API request fails
+
+## 🧠 React Concepts Used
+
+### 🔄 useState()
+
+`useState()` is used to store:
+
+- 👥 User data
+- ⏳ Loading state
+- ❌ Error state
+
+### 🔁 useEffect()
+
+`useEffect()` is used to fetch the user data when the component loads.
+
+### 🌐 fetch()
+
+The Fetch API is used to retrieve data from JSONPlaceholder.
+
+## 📂 Project Structure
+
+```text
+task4/
+├── 📁 src/
+│   ├── App.jsx
+│   ├── user.jsx
+│   ├── App.css
+│   └── main.jsx
+├── 📁 public/
+├── package.json
+├── vite.config.js
+└── README.md
